@@ -1,7 +1,7 @@
 module.exports = function() {
 
     var program = require('commander');
-    var commands = require('./commands.js');
+    var commands = require('./cli');
 
     program
         .version(require('./package.json').version)
@@ -21,7 +21,7 @@ module.exports = function() {
         commands.generate(args);
     } else {
         // Throw a new error:
-        console.error('Command [' + process.argv[2] + "] was not found.");
+        console.error('Command [' + process.argv[2] + '] was not found.');
         process.exit();
     }
 
