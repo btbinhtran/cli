@@ -1,0 +1,12 @@
+{
+    "name": "tower-cli",
+    "version": "0.5.0",
+    "main": "./index.js",
+    "dependencies": {
+        "commander": "latest"
+    },
+    "devDependencies": {
+        "mocha": "latest",
+        "should": "latest"
+    }
+}
