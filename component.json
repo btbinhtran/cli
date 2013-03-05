@@ -1,0 +1,12 @@
+{
+  "name": "cli",
+  "repo": "tower/cli",
+  "description": "Tower Cli component",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+  },
+  "scripts": ["index.js"],
+  "styles": [],
+  "license": "MIT"
+}
