@@ -4,7 +4,7 @@
   "main": "./index.js",
   "dependencies": {
     "commander": "latest",
-    "tower-server": "http://github.com/TheHydroImpulse/tower-server"
+    "tower-server": "http://github.com/tower/server"
   },
   "devDependencies": {
     "mocha": "~1.8.1",
