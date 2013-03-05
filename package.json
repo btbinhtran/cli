@@ -1,13 +1,16 @@
 {
-    "name": "tower-cli",
-    "version": "0.5.0",
-    "main": "./index.js",
-    "dependencies": {
-        "commander": "latest",
-        "tower-server": "http://github.com/TheHydroImpulse/tower-server"
-    },
-    "devDependencies": {
-        "mocha": "latest",
-        "should": "latest"
-    }
+  "name": "tower-cli",
+  "version": "0.0.1",
+  "main": "./index.js",
+  "dependencies": {
+    "commander": "latest",
+    "tower-server": "http://github.com/TheHydroImpulse/tower-server"
+  },
+  "devDependencies": {
+    "mocha": "~1.8.1",
+    "chai": "~1.4.2",
+  },
+  "scripts": {
+    "test": "mocha"
+  }
 }
