@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "main": "./index.js",
   "dependencies": {
-    "commander": "latest",
-    "tower-server": "http://github.com/tower/server"
+    "tower-server": "*",
+    "tower-recipe": "*"
   },
   "devDependencies": {
     "mocha": "~1.8.1",

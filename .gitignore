@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-node_modules/
-=======
 .DS_Store
 tmp
 node_modules
 *.log
 components
->>>>>>> b3928b208f1d5344bce17a4e35da8811c3a1e725
