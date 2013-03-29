@@ -33,8 +33,20 @@ exports.aliases = {
     c: 'console'
   , g: 'generate'
   , s: 'server'
-  , init: 'new'
+  , 'new': 'init'
+  , generate: 'create'
 };
+
+/**
+ * Get command name from an alias.
+ */
+
+exports.alias = function(name){
+  while (exports.aliases[name])
+    name = exports.aliases[name];
+
+  return name;
+}
 
 /**
  * Entrance point to running tower commands.
@@ -49,13 +61,12 @@ exports.run = function(argv){
   if (!command || command.match(/^-/))
     command = 'info';
 
-  if (exports.aliases.hasOwnProperty(command))
-    command = exports.aliases[command];
+  command = exports.alias(command);
 
   if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$')))
     return unknownCommand(command);
 
-  exports[command]();
+  exports[command](argv);
 }
 
 /**
@@ -82,11 +93,11 @@ exports.info = function(argv){
  * @api private
  */
 
-exports['new'] = function(argv){
+exports.init = function(argv, fn){
   var recipe = require('tower-recipe');
   // find all the generators on your system.
   recipe.lookup();
-  recipe(argv[2]).run(argv.splice(2));
+  recipe('component' || argv[2]).run(argv.splice(2), fn || noop);
 }
 
 /**
