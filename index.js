@@ -60,10 +60,7 @@ exports.aliases = {
 
 exports.run = function(argv){
   var command = argv[2];
-
-  if (!command || command.match(/^-/))
-    command = 'info';
-
+  if (!command || command.match(/^-/)) command = 'info';
   command = exports.alias(command);
 
   if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$')))
