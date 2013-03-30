@@ -11,6 +11,9 @@
     "mocha": "~1.8.1",
     "tower-fs": "*"
   },
+  "bin": {
+    "tower": "./bin/tower"
+  },
   "scripts": {
     "test": "mocha"
   }

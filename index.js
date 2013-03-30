@@ -222,9 +222,10 @@ exports.version = function(){
 
 function recipe(verb) {
   return function(argv, fn) {
+    // [ 'node', '/usr/local/share/npm/bin/tower', 'create', 'recipe', 'my-recipe', '-o', 'tmp' ]
     require('tower-recipe')
       .lookup()
-      .exec(argv[2], verb, argv, fn || noop);
+      .exec(argv[3], verb, argv, fn || noop);
   }
 }
 
