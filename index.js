@@ -6,6 +6,23 @@
 var noop = function() {};
 
 /**
+ * Verbs to use with recipes.
+ */
+
+exports.verbs = [
+    'build'
+  , 'create'
+  , 'remove'
+  , 'install'
+  , 'uninstall'
+  , 'list'
+  , 'exec'
+  , 'start'
+  , 'stop'
+  , 'console'
+];
+
+/**
  * List of available commands.
  */
 
@@ -22,23 +39,7 @@ exports.commands = [
   , 'search'
   , 'publish'
   , 'watch'
-];
-
-/**
- * Verbs to use with recipes.
- */
-
-exports.verbs = [
-    'build'
-  , 'create'
-  , 'remove'
-  , 'install'
-  , 'uninstall'
-  , 'list'
-  , 'exec'
-  , 'start'
-  , 'stop'
-];
+].concat(exports.verbs);
 
 /**
  * Command aliases.
@@ -85,6 +86,18 @@ exports.alias = function(name){
 
   return name;
 }
+
+/**
+ * Ask a recipe to `verb`.
+ *
+ * @param [Array] argv
+ * @param [Function] [fn]
+ * @api private
+ */
+
+exports.verbs.forEach(function(verb){
+  exports[verb] = recipe(verb);
+});
 
 /**
  * tower info
@@ -148,18 +161,6 @@ exports.server = function(argv){
 }
 
 /**
- * Ask a recipe to `verb`.
- *
- * @param [Array] argv
- * @param [Function] [fn]
- * @api private
- */
-
-exports.verbs.forEach(function(verb){
-  exports[verb] = recipe(verb);
-});
-
-/**
  * Switch between environment config contexts.
  *
  * @api private
@@ -176,16 +177,20 @@ exports.use = function(argv){
  */
 
 exports.console = function(argv){
-  var options = command()
-    .usage('console [options]')
-    .option('-e, --env [value]', 'sets Tower.env (development, production, test, etc., default: development)', 'development')
-    .option('-s, --sync', 'allows for database operations to run synchronously, via node fibers')
-    // .option('-r, --remote')
+  if (argv[3] && !argv[3].match(/^-/)) {
+    recipe('console')(argv);
+  } else {
+    var options = command()
+      .usage('console [options]')
+      .option('-e, --env [value]', 'sets Tower.env (development, production, test, etc., default: development)', 'development')
+      .option('-s, --sync', 'allows for database operations to run synchronously, via node fibers')
+      // .option('-r, --remote')
 
-  require('tower-console')({
-      env: options.env
-    , sync: !!options.sync
-  });
+    require('tower-console')({
+        env: options.env
+      , sync: !!options.sync
+    }); 
+  }
 }
 
 /**
