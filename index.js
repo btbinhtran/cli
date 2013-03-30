@@ -63,10 +63,12 @@ exports.run = function(argv){
   if (!command || command.match(/^-/)) command = 'info';
   command = exports.alias(command);
 
-  if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$')))
-    return unknownCommand(command);
+  if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$'))) {
 
-  exports[command](argv);
+    return unknownCommand(command);
+  }
+
+  return exports[command](argv);
 }
 
 /**
@@ -96,11 +98,13 @@ exports.info = function(argv){
     , 'tower console                 command line prompt to your application'
     , 'tower generate <generator>    generate project files (models, views, controllers, scaffolds, etc.)'
   ].join("\n"));
+  // Make sure the application doesn't load yet, it'll throw errors.
+  process.exit();
 };
 
 /**
  * Create a new app
- * 
+ *
  * Example:
  *
  *    tower new app
@@ -137,6 +141,8 @@ exports.server = function(argv){
         , '      tower generate model Post title:string body:text belongsTo:user'
       ].join("\n"));
     }).parse(argv);
+
+  return require('tower-server')(program);
 }
 
 /**
@@ -202,7 +208,7 @@ exports.publish = function(){
 
 /**
  * Tower version.
- * 
+ *
  * @api private
  */
 
