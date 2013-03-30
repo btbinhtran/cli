@@ -36,7 +36,9 @@ exports.verbs = [
   , 'uninstall'
   , 'list'
   , 'exec'
-]
+  , 'start'
+  , 'stop'
+];
 
 /**
  * Command aliases.
