@@ -24,7 +24,7 @@ describe('cli', function(){
   describe('info', function(){
     it('should print info', function(done){
       tower('info', function(err, result){
-        assert.isNull(err);
+        assert(!err);
         done();
       });
     });
@@ -33,7 +33,11 @@ describe('cli', function(){
   describe('new', function(){
     it('should create a new app', function(done){
       tower('new', 'app1', function(err, result){
-        console.log(err, result)
+        assert(!err);
+
+        assert(fs.existsSync('tmp/app1/app.js'));
+        assert(fs.existsSync('tmp/app1/README.md'));
+
         done();
       })
     });
