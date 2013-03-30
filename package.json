@@ -5,16 +5,10 @@
   "dependencies": {
     "tower-server": "*",
     "tower-recipe": "*",
-    "tower-console": "*"
-  },
-  "devDependencies": {
-    "mocha": "~1.8.1",
+    "tower-console": "*",
     "tower-fs": "*"
   },
   "bin": {
     "tower": "./bin/tower"
-  },
-  "scripts": {
-    "test": "mocha"
   }
 }

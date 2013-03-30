@@ -21,6 +21,7 @@ exports.commands = [
   , 'init'
   , 'search'
   , 'publish'
+  , 'watch'
 ];
 
 /**
@@ -172,17 +173,16 @@ exports.use = function(argv){
  */
 
 exports.console = function(argv){
-  require('tower-console')(argv);
-}
+  var options = command();
+    .usage('console [options]')
+    .option('-e, --env [value]', 'sets Tower.env (development, production, test, etc., default: development)', 'development')
+    .option('-s, --sync', 'allows for database operations to run synchronously, via node fibers')
+    // .option('-r, --remote')
 
-/**
- * Setup local/remote machine as workstation or network.
- *
- * @api private
- */
-
-exports.setup = function(argv){
-
+  require('tower-console')({
+      env: options.env
+    , sync: !!options.sync
+  });
 }
 
 /**
@@ -202,6 +202,10 @@ exports.search = function(){
 
 exports.publish = function(){
 
+}
+
+exports.watch = function(){
+  require('tower-fs').watch(process.cwd());
 }
 
 /**
