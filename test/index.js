@@ -1,26 +1,29 @@
 var cli = require('..')
-  , assert = require('chai').assert
-  , spawn = require('child_process').spawn;
+  , assert = require('assert')
+  , spawn = require('child_process').spawn
+  , fs = require('tower-fs');
 
 describe('cli', function(){
+  before(clearTmp);
+
   it('should alias commands', function(){
-    assert.equal('create', cli.alias('create'));
-    assert.equal('remove', cli.alias('remove'));
-    assert.equal('create', cli.alias('generate'));
-    assert.equal('create', cli.alias('g'));
-    assert.equal('console', cli.alias('console'));
-    assert.equal('console', cli.alias('c'));
-    assert.equal('server', cli.alias('server'));
-    assert.equal('server', cli.alias('s'));
-    assert.equal('init', cli.alias('init'));
-    assert.equal('init', cli.alias('new'));
-    assert.equal('help', cli.alias('help'));
-    assert.equal('info', cli.alias('info'));
+    assert('create' == cli.alias('create'));
+    assert('remove' == cli.alias('remove'));
+    assert('create' == cli.alias('generate'));
+    assert('create' == cli.alias('g'));
+    assert('console' == cli.alias('console'));
+    assert('console' == cli.alias('c'));
+    assert('server' == cli.alias('server'));
+    assert('server' == cli.alias('s'));
+    assert('init' == cli.alias('init'));
+    assert('init' == cli.alias('new'));
+    assert('help' == cli.alias('help'));
+    assert('info' == cli.alias('info'));
   });
 
   describe('info', function(){
     it('should print info', function(done){
-      tower(['info'], function(err, result){
+      tower('info', function(err, result){
         assert.isNull(err);
         done();
       });
@@ -29,7 +32,7 @@ describe('cli', function(){
 
   describe('new', function(){
     it('should create a new app', function(done){
-      tower(['new', 'app1'], function(err, result){
+      tower('new', 'app1', function(err, result){
         done();
       })
     });
@@ -46,7 +49,12 @@ describe('cli', function(){
  * Execute a tower command, return output as string.
  */
 
-function tower(args, fn) {
+function tower() {
+  var args = Array.prototype.slice.call(arguments)
+    , fn = args.pop();
+
+  args.push('--output-directory', 'tmp');
+
   var child = spawn('./bin/tower', args)
     , result = ''
     , error = '';
@@ -64,4 +72,11 @@ function tower(args, fn) {
   child.on('close', function(){
     fn(error ? error : null, result);
   });
+}
+
+function clearTmp() {
+  if (fs.existsSync('tmp'))
+    fs.removeDirectoryRecursiveSync('tmp');
+  
+  fs.mkdirSync('tmp');
 }
