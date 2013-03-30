@@ -116,6 +116,7 @@ exports.info = function(argv){
  */
 
 exports.init = function(argv, fn){
+  argv.splice(2, 1, 'create', 'app');
   require('tower-recipe')
     .lookup()
     .exec('app', 'create', argv, fn || noop);
@@ -175,7 +176,7 @@ exports.use = function(argv){
  */
 
 exports.console = function(argv){
-  var options = command();
+  var options = command()
     .usage('console [options]')
     .option('-e, --env [value]', 'sets Tower.env (development, production, test, etc., default: development)', 'development')
     .option('-s, --sync', 'allows for database operations to run synchronously, via node fibers')
