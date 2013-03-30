@@ -18,7 +18,7 @@ exports.commands = [
   , 'create'
   , 'remove'
   , 'list'
-  , 'new'
+  , 'init'
   , 'search'
   , 'publish'
 ];
