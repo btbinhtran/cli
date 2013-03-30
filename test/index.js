@@ -33,7 +33,7 @@ describe('cli', function(){
   describe('new', function(){
     it('should create a new app', function(done){
       tower('new', 'app1', function(err, result){
-        console.log(result)
+        console.log(err, result)
         done();
       })
     });
