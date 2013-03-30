@@ -63,10 +63,8 @@ exports.run = function(argv){
   if (!command || command.match(/^-/)) command = 'info';
   command = exports.alias(command);
 
-  if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$'))) {
-
+  if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$')))
     return unknownCommand(command);
-  }
 
   return exports[command](argv);
 }
