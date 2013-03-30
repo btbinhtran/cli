@@ -24,6 +24,20 @@ exports.commands = [
 ];
 
 /**
+ * Verbs to use with recipes.
+ */
+
+exports.verbs = [
+    'build'
+  , 'create'
+  , 'remove'
+  , 'install'
+  , 'uninstall'
+  , 'list'
+  , 'exec'
+]
+
+/**
  * Command aliases.
  *
  * @see http://www.google.com/complete/search?output=toolbar&q=gnerate
@@ -36,17 +50,6 @@ exports.aliases = {
   , 'new': 'init'
   , generate: 'create'
 };
-
-/**
- * Get command name from an alias.
- */
-
-exports.alias = function(name){
-  while (exports.aliases[name])
-    name = exports.aliases[name];
-
-  return name;
-}
 
 /**
  * Entrance point to running tower commands.
@@ -70,6 +73,20 @@ exports.run = function(argv){
 }
 
 /**
+ * Get command name from an alias.
+ *
+ * @param {String} name
+ * @api private
+ */
+
+exports.alias = function(name){
+  while (exports.aliases[name])
+    name = exports.aliases[name];
+
+  return name;
+}
+
+/**
  * tower info
  *
  * @api private
@@ -85,19 +102,21 @@ exports.info = function(argv){
 };
 
 /**
- * tower new app
+ * Create a new app
+ * 
+ * Example:
  *
- * This just invokes the generator,
- * but shortens the command by using `app` as the generator name.
+ *    tower new app
+ *
+ * This is just a special case of executing a recipe.
  *
  * @api private
  */
 
 exports.init = function(argv, fn){
-  var recipe = require('tower-recipe');
-  // find all the generators on your system.
-  recipe.lookup();
-  recipe('component' || argv[2]).run(argv.splice(2), fn || noop);
+  require('tower-recipe')
+    .lookup()
+    .exec('app', 'create', argv, fn || noop);
 }
 
 /**
@@ -124,44 +143,16 @@ exports.server = function(argv){
 }
 
 /**
- * tower create
+ * Ask a recipe to `verb`.
  *
+ * @param [Array] argv
+ * @param [Function] [fn]
  * @api private
  */
 
-exports.create = function(argv, fn){
-  require('tower-recipe').create(argv, fn || noop);
-}
-
-exports.generate = exports.create;
-
-/**
- * Reverse what the generator did.
- */
-
-exports.remove = function(argv, fn){
-  require('tower-recipe').remove(argv, fn || noop);
-}
-
-/**
- * XXX: List some resource.
- *
- * @api private
- */
-
-exports.list = function(argv){
-
-}
-
-/**
- * Execute a command from tower's scope.
- *
- * @api private
- */
-
-exports.exec = function(argv){
-
-}
+exports.verbs.forEach(function(verb){
+  exports[verb] = recipe(verb);
+});
 
 /**
  * Switch between environment config contexts.
@@ -180,7 +171,7 @@ exports.use = function(argv){
  */
 
 exports.console = function(argv){
-
+  require('tower-console')(argv);
 }
 
 /**
@@ -214,6 +205,8 @@ exports.publish = function(){
 
 /**
  * Tower version.
+ * 
+ * @api private
  */
 
 exports.version = function(){
@@ -221,12 +214,32 @@ exports.version = function(){
 }
 
 /**
+ * Return a function for executing a recipe's action.
+ *
+ * @api private
+ */
+
+function recipe(verb) {
+  return function(argv, fn) {
+    require('tower-recipe')
+      .lookup()
+      .exec(argv[2], verb, argv, fn || noop);
+  }
+}
+
+/**
  * Constructs commander object.
+ *
+ * @api private
  */
 
 function command() {
   return require('commander').version(exports.version());
 }
+
+/**
+ * @api private
+ */
 
 function unknownCommand(name) {
   // Throw a new error:

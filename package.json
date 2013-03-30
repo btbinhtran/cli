@@ -4,7 +4,8 @@
   "main": "./index.js",
   "dependencies": {
     "tower-server": "*",
-    "tower-recipe": "*"
+    "tower-recipe": "*",
+    "tower-console": "*"
   },
   "devDependencies": {
     "mocha": "~1.8.1",
