@@ -235,6 +235,7 @@ exports.version = function(){
 function recipe(verb) {
   return function(argv, fn) {
     // [ 'node', '/usr/local/share/npm/bin/tower', 'create', 'recipe', 'my-recipe', '-o', 'tmp' ]
+    // TODO: so you can do `tower <verb> .` and have it <verb> the recipe you are currently in.
     require('tower-recipe')
       .lookup()
       .exec(argv[3], verb, argv, fn || noop);
