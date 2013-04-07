@@ -6,6 +6,23 @@
 var noop = function() {};
 
 /**
+ * Verbs to use with recipes.
+ */
+
+exports.verbs = [
+    'build'
+  , 'create'
+  , 'remove'
+  , 'install'
+  , 'uninstall'
+  , 'list'
+  , 'exec'
+  , 'start'
+  , 'stop'
+  , 'console'
+];
+
+/**
  * List of available commands.
  */
 
@@ -21,21 +38,8 @@ exports.commands = [
   , 'init'
   , 'search'
   , 'publish'
-];
-
-/**
- * Verbs to use with recipes.
- */
-
-exports.verbs = [
-    'build'
-  , 'create'
-  , 'remove'
-  , 'install'
-  , 'uninstall'
-  , 'list'
-  , 'exec'
-]
+  , 'watch'
+].concat(exports.verbs);
 
 /**
  * Command aliases.
@@ -60,13 +64,14 @@ exports.aliases = {
 
 exports.run = function(argv){
   var command = argv[2];
+  // Shorten the `node app.js server` call to `node app.js`
+  if (argv[1].indexOf('.') !== -1) command = 'server';
+
   if (!command || command.match(/^-/)) command = 'info';
   command = exports.alias(command);
 
-  if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$'))) {
-    if (!command) return exports['server'](argv);
+  if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$')))
     return unknownCommand(command);
-  }
 
   return exports[command](argv);
 }
@@ -84,6 +89,18 @@ exports.alias = function(name){
 
   return name;
 }
+
+/**
+ * Ask a recipe to `verb`.
+ *
+ * @param [Array] argv
+ * @param [Function] [fn]
+ * @api private
+ */
+
+exports.verbs.forEach(function(verb){
+  exports[verb] = recipe(verb);
+});
 
 /**
  * tower info
@@ -115,12 +132,14 @@ exports.info = function(argv){
  */
 
 exports.init = function(argv, fn){
+  argv.splice(2, 1, 'create', 'app');
   require('tower-recipe')
     .lookup()
     .exec('app', 'create', argv, fn || noop);
 }
 
 /**
+ * XXX: Check if the user is running `tower server` vs `node app.js`. We need to load the `app.js` file
  * tower server
  *
  * @api private
@@ -146,18 +165,6 @@ exports.server = function(argv){
 }
 
 /**
- * Ask a recipe to `verb`.
- *
- * @param [Array] argv
- * @param [Function] [fn]
- * @api private
- */
-
-exports.verbs.forEach(function(verb){
-  exports[verb] = recipe(verb);
-});
-
-/**
  * Switch between environment config contexts.
  *
  * @api private
@@ -174,17 +181,20 @@ exports.use = function(argv){
  */
 
 exports.console = function(argv){
-  require('tower-console')(argv);
-}
+  if (argv[3] && !argv[3].match(/^-/)) {
+    recipe('console')(argv);
+  } else {
+    var options = command()
+      .usage('console [options]')
+      .option('-e, --env [value]', 'sets Tower.env (development, production, test, etc., default: development)', 'development')
+      .option('-s, --sync', 'allows for database operations to run synchronously, via node fibers')
+      // .option('-r, --remote')
 
-/**
- * Setup local/remote machine as workstation or network.
- *
- * @api private
- */
-
-exports.setup = function(argv){
-
+    require('tower-console')({
+        env: options.env
+      , sync: !!options.sync
+    });
+  }
 }
 
 /**
@@ -206,6 +216,10 @@ exports.publish = function(){
 
 }
 
+exports.watch = function(){
+  require('tower-fs').watch(process.cwd());
+}
+
 /**
  * Tower version.
  *
@@ -224,9 +238,11 @@ exports.version = function(){
 
 function recipe(verb) {
   return function(argv, fn) {
+    // [ 'node', '/usr/local/share/npm/bin/tower', 'create', 'recipe', 'my-recipe', '-o', 'tmp' ]
+    // TODO: so you can do `tower <verb> .` and have it <verb> the recipe you are currently in.
     require('tower-recipe')
       .lookup()
-      .exec(argv[2], verb, argv, fn || noop);
+      .exec(argv[3], verb, argv, fn || noop);
   }
 }
 

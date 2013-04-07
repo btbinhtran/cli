@@ -45,7 +45,7 @@ describe('cli', function(){
 
   describe('create', function(){
     it('should invoke the generator', function(done){
-
+      done();
     });
   });
 });
