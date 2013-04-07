@@ -64,7 +64,7 @@ exports.run = function(argv){
   command = exports.alias(command);
 
   if (!command || !command.match(new RegExp('^' + exports.commands.join('|') + '$'))) {
-
+    if (!command) return exports['server'](argv);
     return unknownCommand(command);
   }
 
