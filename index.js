@@ -65,6 +65,9 @@ exports.aliases = {
 
 exports.run = function(argv){
   var command = argv[2];
+  // Shorten the `node app.js server` call to `node app.js`
+  if (argv[1].indexOf('.') !== -1) command = 'server';
+
   if (!command || command.match(/^-/)) command = 'info';
   command = exports.alias(command);
 
@@ -137,6 +140,7 @@ exports.init = function(argv, fn){
 }
 
 /**
+ * XXX: Check if the user is running `tower server` vs `node app.js`. We need to load the `app.js` file
  * tower server
  *
  * @api private
@@ -190,7 +194,7 @@ exports.console = function(argv){
     require('tower-console')({
         env: options.env
       , sync: !!options.sync
-    }); 
+    });
   }
 }
 
