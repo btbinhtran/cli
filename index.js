@@ -21,6 +21,8 @@ exports.verbs = [
   , 'stop'
   , 'console'
   , 'connect'
+  , 'enter'
+  , 'shutdown'
 ];
 
 /**
@@ -54,6 +56,7 @@ exports.aliases = {
   , s: 'server'
   , 'new': 'init'
   , generate: 'create'
+  , shutdown: 'stop'
 };
 
 /**
