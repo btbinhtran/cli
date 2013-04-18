@@ -6,7 +6,8 @@
     "tower-server": "*",
     "tower-recipe": "*",
     "tower-console": "*",
-    "tower-fs": "*"
+    "tower-fs": "*",
+    "commander": "*"
   },
   "bin": {
     "tower": "./bin/tower"

@@ -19,7 +19,6 @@ exports.verbs = [
   , 'exec'
   , 'start'
   , 'stop'
-  , 'console'
   , 'connect'
   , 'enter'
   , 'shutdown'
@@ -185,20 +184,16 @@ exports.use = function(argv){
  */
 
 exports.console = function(argv){
-  if (argv[3] && !argv[3].match(/^-/)) {
-    recipe('console')(argv);
-  } else {
-    var options = command()
-      .usage('console [options]')
-      .option('-e, --env [value]', 'sets Tower.env (development, production, test, etc., default: development)', 'development')
-      .option('-s, --sync', 'allows for database operations to run synchronously, via node fibers')
-      // .option('-r, --remote')
+  var options = command()
+    .usage('console [options]')
+    .option('-e, --env [value]', 'sets Tower.env (development, production, test, etc., default: development)', 'development')
+    .option('-s, --sync', 'allows for database operations to run synchronously, via node fibers')
+    // .option('-r, --remote')
 
-    require('tower-console')({
-        env: options.env
-      , sync: !!options.sync
-    });
-  }
+  require('tower-console')({
+      env: options.env
+    , sync: !!options.sync
+  });
 }
 
 /**
