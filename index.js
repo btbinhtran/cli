@@ -20,6 +20,7 @@ exports.verbs = [
   , 'start'
   , 'stop'
   , 'console'
+  , 'connect'
 ];
 
 /**
