@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
+if ('console' === process.argv[2]) process.stdout.write('tower> ');
+
 require('..').run(process.argv);
