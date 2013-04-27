@@ -28,6 +28,7 @@ exports.verbs = [
   , 'save'
   , 'show'
   , 'setup'
+  , 'read'
 ];
 
 /**
