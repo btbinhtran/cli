@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var fs = require('fs')
+  , path = require('path')
+  , spawn = require('child_process').spawn;
+
+/**
+ * Create a ~/.tower directory (only for local environment).
+ *
+ * XXX: Maybe this can be accomplished by
+ *      adding custom flag on install if you *dont* want this,
+ *      such as on production (which can be automatic)
+ */
+
+if ('production' !== process.env.NODE_ENV && !fs.existsSync(process.env.HOME)) {
+  // XXX: npm says to use a different home variable?
+  var _path = path.join(process.env.HOME, '.tower');
+  fs.mkdirSync(_path);
+  process.chdir(_path, function(){
+    // spawn('npm', ['install', 'tower-station-cookbook'], { stdio: 'inherit' });
+    // spawn('tower', ['create', 'station'], { stdio: 'inherit' });
+  });
+}
