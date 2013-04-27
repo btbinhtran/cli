@@ -1,12 +1,6 @@
 #!/usr/bin/env node
 
 /**
- * Module dependencies.
- */
-
-var noop = function() {};
-
-/**
  * Console UX.
  */
 
@@ -148,7 +142,7 @@ exports.init = function(argv, fn){
   argv.splice(2, 1, 'create', 'app');
   require('tower-recipe')
     .lookup()
-    .exec('app', 'create', argv, fn || noop);
+    .exec('app', 'create', argv, fn);
 }
 
 /**
@@ -253,8 +247,8 @@ function recipe(verb) {
       // XXX: don't need to lookup necessarily,
       //      should either have a JSON cache of paths,
       //      or try using name first (argv[3])
-      .lookup()
-      .exec(argv[3], verb, argv, fn || noop);
+      //.lookup()
+      .exec(argv[3], verb, argv, fn);
   }
 }
 
