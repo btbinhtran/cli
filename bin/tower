@@ -26,6 +26,7 @@ exports.verbs = [
   , 'describe'
   , 'find'
   , 'save'
+  , 'show'
 ];
 
 /**
@@ -140,8 +141,7 @@ exports.info = function(argv){
 
 exports.init = function(argv, fn){
   argv.splice(2, 1, 'create', 'app');
-  require('tower-recipe')
-    .lookup()
+  require('tower-cookbook')
     .exec('app', 'create', argv, fn);
 }
 
@@ -243,7 +243,7 @@ function recipe(verb) {
   return function(argv, fn) {
     // [ 'node', '/usr/local/share/npm/bin/tower', 'create', 'recipe', 'my-recipe', '-o', 'tmp' ]
     // XXX: so you can do `tower <verb> .` and have it <verb> the recipe you are currently in.
-    require('tower-recipe')
+    require('tower-cookbook')
       // XXX: don't need to lookup necessarily,
       //      should either have a JSON cache of paths,
       //      or try using name first (argv[3])
