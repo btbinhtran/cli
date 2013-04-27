@@ -1,4 +1,4 @@
-var cli = require('..')
+var cli = require('../bin/tower')
   , assert = require('assert')
   , spawn = require('child_process').spawn
   , fs = require('tower-fs');
