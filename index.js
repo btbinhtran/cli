@@ -23,6 +23,8 @@ exports.verbs = [
   , 'enter'
   , 'shutdown'
   , 'describe'
+  , 'find'
+  , 'save'
 ];
 
 /**
