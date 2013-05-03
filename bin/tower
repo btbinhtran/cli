@@ -31,6 +31,10 @@ exports.verbs = [
   , 'show'
   , 'setup'
   , 'read'
+  , 'update'
+  , 'bootstrap'
+  , 'clean'
+  , 'clear'
 ];
 
 /**
