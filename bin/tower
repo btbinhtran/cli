@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+process.title = 'tower';
+
 /**
  * Console UX.
  */
@@ -109,7 +111,7 @@ exports.alias = function(name){
  */
 
 exports.verbs.forEach(function(verb){
-  exports[verb] = recipe(verb);
+  exports[verb] = recipe(verb, complete);
 });
 
 /**
@@ -243,14 +245,16 @@ exports.version = function(){
 
 function recipe(verb) {
   return function(argv, fn) {
-    // [ 'node', '/usr/local/share/npm/bin/tower', 'create', 'recipe', 'my-recipe', '-o', 'tmp' ]
-    // XXX: so you can do `tower <verb> .` and have it <verb> the recipe you are currently in.
-    require('tower-cookbook')
-      // XXX: don't need to lookup necessarily,
-      //      should either have a JSON cache of paths,
-      //      or try using name first (argv[3])
-      //.lookup()
-      .exec(argv[3], verb, argv, fn);
+    pipeable(function(err, data){
+      // [ 'node', '/usr/local/share/npm/bin/tower', 'create', 'recipe', 'my-recipe', '-o', 'tmp' ]
+      // XXX: so you can do `tower <verb> .` and have it <verb> the recipe you are currently in.
+      // `data` is a JSON string (if from tower) or another string piped from another command.
+      if (data) argv.push('--data', data);
+      require('tower-cookbook')
+        .exec(argv[3], verb, argv, function(){
+          process.exit();
+        });
+    });
   }
 }
 
@@ -276,3 +280,42 @@ function unknownCommand(name) {
 
 // Don't run during tests.
 if (process.argv[1].match(/tower$/)) exports.run(process.argv);
+
+function complete(){
+  //process.stdin.resume();
+}
+
+// $ tower list ec2:images -i ami-7539b41c | tower create ec2:image
+function pipeable(fn) {
+  var data = '';
+
+  process.stdin.setEncoding('utf8');
+  process.stdin
+    .on('readable', readable)
+    .on('end', function(){
+      withPipe(data);
+    });
+
+  function readable(){
+    var chunk = process.stdin.read();
+    if (null === chunk) {
+      withoutPipe();
+    } else {
+      data += chunk;
+    }
+  }
+
+  // this passes file data
+  // $ ./b.js < ./a.js
+  // this pipes a to b
+  // $ ./a.js | ./b.js
+  // this doesn't work (replaces b with a)
+  // $ ./a.js > ./b.js
+  function withPipe(data) {
+    fn(null, data);
+  }
+
+  function withoutPipe() {
+    fn(null);
+  }
+}
