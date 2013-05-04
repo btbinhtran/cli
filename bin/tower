@@ -35,6 +35,7 @@ exports.verbs = [
   , 'bootstrap'
   , 'clean'
   , 'clear'
+  , 'help'
 ];
 
 /**
@@ -43,7 +44,6 @@ exports.verbs = [
 
 exports.commands = [
     'info'
-  , 'help'
   , 'server'
   , 'console'
   , 'generate'
