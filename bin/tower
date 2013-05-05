@@ -69,6 +69,8 @@ exports.aliases = {
   , 'new': 'init'
   , generate: 'create'
   , shutdown: 'stop'
+  , rm: 'remove'
+  // list: 'find'
 };
 
 /**
