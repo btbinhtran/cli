@@ -36,6 +36,8 @@ exports.verbs = [
   , 'clean'
   , 'clear'
   , 'help'
+  , 'fetch'
+  , 'add'
 ];
 
 /**
