@@ -1,7 +1,7 @@
-var cli = require('../bin/tower')
-  , assert = require('assert')
-  , spawn = require('child_process').spawn
-  , fs = require('tower-fs');
+var cli = require('../bin/tower');
+var assert = require('assert');
+var spawn = require('child_process').spawn;
+var fs = require('tower-fs');
 
 describe('cli', function(){
   before(clearTmp);
@@ -55,14 +55,14 @@ describe('cli', function(){
  */
 
 function tower() {
-  var args = Array.prototype.slice.call(arguments)
-    , fn = args.pop();
+  var args = Array.prototype.slice.call(arguments);
+  var fn = args.pop();
 
   args.push('--output-directory', 'tmp');
 
-  var child = spawn('./bin/tower', args)
-    , result = ''
-    , error = '';
+  var child = spawn('./bin/tower', args);
+  var result = '';
+  var error = '';
 
   child.stdout.setEncoding('utf-8');
   child.stdout.on('data', function(data){

@@ -13,31 +13,31 @@ if ('console' === process.argv[2]) process.stdout.write('tower> ');
  */
 
 exports.verbs = [
-    'build'
-  , 'create'
-  , 'remove'
-  , 'install'
-  , 'uninstall'
-  , 'list'
-  , 'exec'
-  , 'start'
-  , 'stop'
-  , 'connect'
-  , 'enter'
-  , 'shutdown'
-  , 'describe'
-  , 'find'
-  , 'save'
-  , 'show'
-  , 'setup'
-  , 'read'
-  , 'update'
-  , 'bootstrap'
-  , 'clean'
-  , 'clear'
-  , 'help'
-  , 'fetch'
-  , 'add'
+  'build',
+  'create',
+  'remove',
+  'install',
+  'uninstall',
+  'list',
+  'exec',
+  'start',
+  'stop',
+  'connect',
+  'enter',
+  'shutdown',
+  'describe',
+  'find',
+  'save',
+  'show',
+  'setup',
+  'read',
+  'update',
+  'bootstrap',
+  'clean',
+  'clear',
+  'help',
+  'fetch',
+  'add'
 ];
 
 /**
@@ -45,17 +45,17 @@ exports.verbs = [
  */
 
 exports.commands = [
-    'info'
-  , 'server'
-  , 'console'
-  , 'generate'
-  , 'create'
-  , 'remove'
-  , 'list'
-  , 'init'
-  , 'search'
-  , 'publish'
-  , 'watch'
+  'info',
+  'server',
+  'console',
+  'generate',
+  'create',
+  'remove',
+  'list',
+  'init',
+  'search',
+  'publish',
+  'watch'
 ].concat(exports.verbs);
 
 /**
@@ -65,13 +65,13 @@ exports.commands = [
  */
 
 exports.aliases = {
-    c: 'console'
-  , g: 'generate'
-  , s: 'server'
-  , 'new': 'init'
-  , generate: 'create'
-  , shutdown: 'stop'
-  , rm: 'remove'
+  c: 'console',
+  g: 'generate',
+  s: 'server',
+  'new': 'init',
+  generate: 'create',
+  shutdown: 'stop',
+  rm: 'remove'
   // list: 'find'
 };
 
@@ -94,7 +94,7 @@ exports.run = function(argv){
     return unknownCommand(command);
 
   return exports[command](argv);
-}
+};
 
 /**
  * Get command name from an alias.
@@ -108,7 +108,7 @@ exports.alias = function(name){
     name = exports.aliases[name];
 
   return name;
-}
+};
 
 /**
  * Ask a recipe to `verb`.
@@ -155,7 +155,7 @@ exports.init = function(argv, fn){
   argv.splice(2, 1, 'create', 'app');
   require('tower-cookbook')
     .exec('app', 'create', argv, fn);
-}
+};
 
 /**
  * XXX: Check if the user is running `tower server` vs `node app.js`. We need to load the `app.js` file
@@ -181,7 +181,7 @@ exports.server = function(argv){
     }).parse(argv);
 
   return require('tower-server')(program);
-}
+};
 
 /**
  * Switch between environment config contexts.
@@ -191,7 +191,7 @@ exports.server = function(argv){
 
 exports.use = function(argv){
 
-}
+};
 
 /**
  * Enter interactive console.
@@ -210,7 +210,7 @@ exports.console = function(argv){
       env: options.env
     , sync: !!options.sync
   });
-}
+};
 
 /**
  * Search for components people might have created.
@@ -221,7 +221,7 @@ exports.console = function(argv){
 
 exports.search = function(){
 
-}
+};
 
 /**
  * Notify towerjs.org of your component so other people can find it.
@@ -229,11 +229,11 @@ exports.search = function(){
 
 exports.publish = function(){
 
-}
+};
 
 exports.watch = function(){
   require('tower-fs').watch(process.cwd());
-}
+};
 
 /**
  * Tower version.
@@ -243,7 +243,7 @@ exports.watch = function(){
 
 exports.version = function(){
   return '0.5.0';
-}
+};
 
 /**
  * Return a function for executing a recipe's action.
