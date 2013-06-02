@@ -135,10 +135,20 @@ exports.verbs.forEach(function(verb){
 
 exports.info = function(argv){
   console.log([
-      'Commands:'
-    , 'tower new <app-name>          generate a new Tower application in folder "app-name"'
-    , 'tower console                 command line prompt to your application'
-    , 'tower generate <generator>    generate project files (models, views, controllers, scaffolds, etc.)'
+    ''
+    '  Usage: tower <command> <cookbook> [options]',
+    '',
+    '  Options:',
+    '',
+    '    -h, --help     output usage information',
+    '    -V, --version  output the version number',
+    '',
+    '  Commands:',
+    '',
+    '    console                    enter tower interactive console',
+    '    info <name> [prop]         output json cookbook information',
+    '    create <cookbook> <name>   execute `create` action for cookbook',
+    ''
   ].join("\n"));
   // Make sure the application doesn't load yet, it'll throw errors.
   process.exit();
@@ -212,8 +222,8 @@ exports.console = function(argv){
     // .option('-r, --remote')
 
   require('tower-console')({
-      env: options.env
-    , sync: !!options.sync
+    env: options.env,
+    sync: !!options.sync
   });
 };
 
@@ -300,7 +310,7 @@ function complete(){
   //process.stdin.resume();
 }
 
-// $ tower list ec2:images -i ami-7539b41c | tower create ec2:image
+// $ tower list ec2:images -i ami-7539b41c | tower create ec2:instance
 function pipeable(fn) {
   var data = '';
 
