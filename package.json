@@ -1,12 +1,12 @@
 {
   "name": "tower-cli",
-  "version": "0.0.1",
+  "version": "0.5.0pre",
   "main": "./index.js",
   "dependencies": {
-    "tower-server": "*",
-    "tower-cookbook": "*",
-    "tower-console": "*",
-    "tower-fs": "*",
+    "tower-server": "~0.5.0pre",
+    "tower-cookbook": "~0.5.0pre",
+    "tower-console": "~0.5.0pre",
+    "tower-fs": "~0.5.0pre",
     "commander": "*"
   },
   "bin": {
