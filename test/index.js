@@ -1,3 +1,4 @@
+
 var cli = require('../bin/tower');
 var assert = require('assert');
 var spawn = require('child_process').spawn;
@@ -19,6 +20,13 @@ describe('cli', function(){
     assert('init' == cli.alias('new'));
     assert('help' == cli.alias('help'));
     assert('info' == cli.alias('info'));
+  });
+
+  it('should print version on `tower -v`', function(done){
+    tower('-v', function(err, result){
+      assert('0.5.0' === result.trim())
+      done();
+    });
   });
 
   describe('info', function(){

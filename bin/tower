@@ -6,7 +6,12 @@ process.title = 'tower';
  * Console UX.
  */
 
-if ('console' === process.argv[2]) process.stdout.write('tower> ');
+if ('console' === process.argv[2]) {
+  process.stdout.write('tower> ');
+} else if ('-v' === process.argv[2]) {
+  console.log(version());
+  process.exit();
+}
 
 /**
  * Verbs to use with recipes.
@@ -241,9 +246,7 @@ exports.watch = function(){
  * @api private
  */
 
-exports.version = function(){
-  return '0.5.0';
-};
+exports.version = version;
 
 /**
  * Return a function for executing a recipe's action.
@@ -274,6 +277,10 @@ function recipe(verb) {
 
 function command() {
   return require('commander').version(exports.version());
+}
+
+function version() {
+  return '0.5.0';
 }
 
 /**
