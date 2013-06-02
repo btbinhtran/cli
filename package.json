@@ -1,6 +1,6 @@
 {
   "name": "tower-cli",
-  "version": "0.1.0pre4",
+  "version": "0.1.0pre5",
   "main": "./index.js",
   "dependencies": {
     "tower-server": "~0.1.0pre",

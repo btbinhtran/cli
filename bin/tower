@@ -135,7 +135,7 @@ exports.verbs.forEach(function(verb){
 
 exports.info = function(argv){
   console.log([
-    ''
+    '',
     '  Usage: tower <command> <cookbook> [options]',
     '',
     '  Options:',
